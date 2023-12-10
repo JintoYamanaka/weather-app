@@ -23,7 +23,6 @@ const App: React.FC = () => {
         const response = await axios.get(
           `https://weather.tsukumijima.net/api/forecast/city/${location}`
         );
-        console.log(response.data); // デバッグ用
         setWeatherData(response.data);
       } catch (error) {
         console.error("Weather data fetch error:", error);
