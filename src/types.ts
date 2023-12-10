@@ -18,3 +18,7 @@ export interface Forecast {
   };
   image: Image;
 }
+
+export interface WeatherData {
+  forecasts: Forecast[];
+}

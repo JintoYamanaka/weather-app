@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react';
-import { css } from '@emotion/css';
 import axios from 'axios';
 import WeatherCard from './components/WeatherCard';
 import locations from './locations.json';
-
-const appStyle = css`
-  text-align: center;
-`;
+import { Container, Typography, FormControl, Select, MenuItem, Box, Grid } from '@mui/material';
+import { WeatherData, Forecast } from './types';
 
 const App: React.FC = () => {
   const [location, setLocation] = useState<string>(locations[0].id);
-  const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -27,21 +24,41 @@ const App: React.FC = () => {
   }, [location]);
 
   return (
-    <div className={appStyle}>
-      <h1>天気予報アプリ</h1>
-      <select value={location} onChange={e => setLocation(e.target.value)}>
-        {locations.map((loc) => (
-          <option key={loc.id} value={loc.id}>{loc.name}</option>
-        ))}
-      </select>
+    <Container maxWidth="lg" sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+    }}>
+      <Box my={4}>
+        <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
+          天気予報
+        </Typography>
+        <FormControl fullWidth margin="normal" variant="outlined" sx={{ backgroundColor: '#fff', borderRadius: 1 }}>
+          <Select
+            value={location}
+            onChange={e => setLocation(e.target.value as string)}
+            displayEmpty
+          >
+            {locations.map((loc) => (
+              <MenuItem key={loc.id} value={loc.id}>{loc.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      {weatherData && weatherData.forecasts
-        ? weatherData.forecasts.slice(0, 3).map((forecast: any, index: number) => (
-            <WeatherCard key={index} forecast={forecast} />
-          ))
-        : <p>天気データを読み込み中...</p>
-      }
-    </div>
+        <Grid container spacing={2}>
+          {weatherData && weatherData.forecasts
+            ? weatherData.forecasts.slice(0, 3).map((forecast: Forecast, index: number) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <WeatherCard forecast={forecast} />
+                </Grid>
+              ))
+            : <Typography>天気データを読み込み中...</Typography>
+          }
+        </Grid>
+      </Box>
+    </Container>
   );
 };
 
