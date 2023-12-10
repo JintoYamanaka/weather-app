@@ -12,6 +12,7 @@ const WeatherCard: React.FC<{ forecast: any }> = ({ forecast }) => {
     <div className={cardStyle}>
       <h3>{forecast.dateLabel} ({forecast.date})</h3>
       <p>天気: {forecast.telop}</p>
+      <img src={forecast.image.url} alt={forecast.image.title} />
       <p>最高気温: {forecast.temperature.max ? forecast.temperature.max.celsius + '°C' : 'ー'}</p>
       <p>最低気温: {forecast.temperature.min ? forecast.temperature.min.celsius + '°C' : 'ー'}</p>
     </div>
