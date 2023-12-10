@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { Forecast, Temperature } from './../types';
 
 const cardStyle = css`
   margin: 20px;
@@ -7,8 +8,8 @@ const cardStyle = css`
   border-radius: 10px;
 `;
 
-const WeatherCard: React.FC<{ forecast: any }> = ({ forecast }) => {
-    const getTemperature = (temp: any) => temp && temp.celsius !== null ? `${temp.celsius}°C` : 'データなし';
+const WeatherCard: React.FC<{ forecast: Forecast }> = ({ forecast }) => {
+    const getTemperature = (temp: Temperature) => temp && temp.celsius !== null ? `${temp.celsius}°C` : 'データなし';
   
     return (
       <div className={cardStyle}>
